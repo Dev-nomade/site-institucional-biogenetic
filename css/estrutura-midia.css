@@ -1,0 +1,394 @@
+/* ============================================================
+   1. VARIÁVEIS — Espaçamento, dimensões e cores
+   ============================================================ */
+:root {
+  /* Cores (exclusivas da UC15 — não usar em UC12/UC13/Figma) */
+  --uc15-bg: #F8F8F8;
+  --uc15-fg: #051f20;
+  --uc15-fg-secondary: rgba(5, 31, 32, 0.65); /* piso mínimo pós-auditoria WCAG AA */
+
+  /* Espaçamento padrão — use sempre estas variáveis em vez de valores soltos */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 40px;
+  --space-6: 50px;
+  --space-7: 30px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 40px;
+  /* Raio de borda padrão */
+  --radius-sm: 30px;
+  --radius-md: 1px;
+
+  /* Alturas padrão de mídia, por tipo de bloco (desktop) */
+  --media-hero-height: 620px;
+  --media-block-height: 400px;
+  --media-estrutura-height: 560px;
+  --estrutura-header-height: 166px;
+  --media-contato-min-height: 460px;
+}
+
+/* Breakpoints de referência: mobile ≤767px, tablet 768–1024px, desktop >1024px */
+@media (max-width: 1024px) {
+  :root {
+    --media-hero-height: 320px;
+    --media-block-height: 260px;
+    --media-estrutura-height: 440px;
+    --estrutura-header-height: 166px;
+    --media-contato-min-height: 420px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --media-hero-height: 240px;
+    --media-block-height: 200px;
+    --media-estrutura-height: 360px;
+    --estrutura-header-height: 260px;
+    --media-contato-min-height: 360px;
+  }
+}
+
+/* ============================================================
+   2. BASE — Comportamento comum de toda imagem/vídeo do site
+   Aplique a classe "media" em toda tag <img> ou <video>.
+   ============================================================ */
+.media {
+  width: 100%;
+  display: flex;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  background-color: rgba(5, 31, 32, 0.06);
+}
+
+/* ============================================================
+   3. HOME — Hero (imagem cheia) + blocos alternados (Sobre)
+   ============================================================ */
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: var(--media-hero-height);
+  border-radius: var(--radius-md);
+  margin: 0 0 var(--space-5) 0;
+  margin-inline: calc(-1 * var(--space-10));
+}
+.home-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.home-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(to bottom, rgba(248, 248, 248, 0) 40%, rgba(248, 248, 248, 1.3) 99%);
+  pointer-events: none;
+}
+.home-hero__content {
+  max-width: 640px;
+  margin: var(--space-6) auto 0;
+  text-align: center;
+  padding: 0 var(--space-5) var(--space-7);
+}
+
+/* Blocos alternados de Missão / Visão / Valores — grid 2 colunas,
+   imagem de um lado, texto do outro, invertendo a cada bloco */
+.home-sobre {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-6) 0;
+}
+.home-sobre > * {
+  min-width: 0;
+}
+.home-sobre__media {
+  height: var(--media-block-height);
+  max-width: none;
+}
+/* Empurra o lado que encosta na borda do container/viewport —
+   nunca o lado que encosta no texto, senão come o gap da grid e "cola" nele.
+   Imagem em primeiro (Missão, Valores): à esquerda.
+   Imagem em último (Visão): à direita. */
+.home-sobre__media:first-child {
+  margin-left: calc(-1 * var(--space-10));
+  width: calc(100% + var(--space-10));
+}
+.home-sobre__media:last-child {
+  margin-right: calc(-1 * var(--space-10));
+  width: calc(100% + var(--space-10));
+}
+/* Modificador: desce o "recorte" do object-fit para mostrar o topo da foto
+   (rostos), usar só quando o corte central esconder algo importante */
+.home-sobre__media--top {
+  object-position: center 25%;
+}
+@media (max-width: 767px) {
+  .home-sobre {
+    grid-template-columns: 1fr;
+  }
+
+  /* Em coluna única não há mais texto ao lado — pode vazar dos dois lados */
+  .home-sobre__media:first-child,
+  .home-sobre__media:last-child {
+    margin-left: calc(-1 * var(--space-10));
+    margin-right: calc(-1 * var(--space-10));
+    width: calc(100% + (var(--space-10) * 2));
+  }
+}
+
+/* Estrutura — painel #051f20 com carrossel de fotos por cima (position: absolute) */
+.estrutura {
+  position: relative;
+  min-height: var(--media-estrutura-height);
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-9);
+  margin-inline: calc(-1 * var(--space-10));
+  background: var(--uc15-fg);
+}
+.estrutura__titulo {
+  position: absolute;
+  top: calc(var(--space-4) + var(--space-4));
+  left: var(--space-8);
+  z-index: 3;
+  color: var(--uc15-bg);
+}
+.estrutura__intro {
+  position: absolute;
+  top: calc(var(--space-8) + var(--space-4));
+  left: var(--space-8);
+  right: var(--space-8);
+  z-index: 3;
+  color: var(--uc15-bg);
+  opacity: 0.85;
+  font-size: 15px;
+  text-align: justify;
+  margin: 0;
+}
+.estrutura__carrossel {
+  position: absolute;
+  top: var(--estrutura-header-height);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.estrutura__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.estrutura__slide.is-active {
+  opacity: 1;
+}
+.estrutura__seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(248, 248, 248, 0.85);
+  color: var(--uc15-fg);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 200ms ease;
+}
+.estrutura__seta:hover {
+  background: var(--uc15-bg);
+}
+.estrutura__seta--prev { left: var(--space-3); }
+.estrutura__seta--next { right: var(--space-3); }
+.estrutura__legenda {
+  position: absolute;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  z-index: 3;
+  color: var(--uc15-bg);
+  background: rgba(5, 31, 32, 0.55);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  margin: 0;
+}
+.estrutura__apoio {
+  max-width: 640px;
+  margin: 0 auto var(--space-6);
+  text-align: center;
+}
+@media (max-width: 767px) {
+  .estrutura__titulo,
+  .estrutura__intro {
+    left: var(--space-4);
+  }
+  .estrutura__intro {
+    right: var(--space-4);
+    max-width: none;
+  }
+}
+
+/* ============================================================
+   4. MODALIDADES — Hero (texto + foto) e grade semanal de horários
+   ============================================================ */
+
+.modalidades-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-6) 0;
+}
+.modalidades-hero > * {
+  min-width: 0;
+}
+.modalidades-hero__endereco {
+  color: var(--uc15-fg-secondary);
+  font-size: 15px;
+}
+.modalidades-hero__media {
+  height: var(--media-block-height);
+  max-width: none;
+  margin-right: calc(-1 * var(--space-10));
+  width: calc(100% + var(--space-10));
+}
+@media (max-width: 767px) {
+  .modalidades-hero {
+    grid-template-columns: 1fr;
+  }
+  .modalidades-hero__media {
+    margin-left: calc(-1 * var(--space-10));
+    margin-right: calc(-1 * var(--space-10));
+    width: calc(100% + (var(--space-10) * 2));
+  }
+}
+
+.grade-horarios {
+  padding: var(--space-6) 0;
+}
+.grade-horarios__cabecalho,
+.grade-horarios__corpo {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.grade-horarios__cabecalho {
+  border-bottom: 1px solid rgba(5, 31, 32, 0.15);
+  padding-bottom: var(--space-2);
+  margin-top: var(--space-4);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--uc15-fg-secondary);
+}
+.grade-horarios__hora {
+  grid-column: 1 / -1;
+  background: var(--uc15-fg);
+  color: var(--uc15-bg);
+  padding: var(--space-2) var(--space-3);
+  margin-top: var(--space-3);
+  font-size: 13px;
+  font-weight: 500;
+}
+.grade-horarios__celula {
+  border: 1px solid rgba(5, 31, 32, 0.1);
+  border-top: none;
+  padding: var(--space-2);
+  min-height: 80px;
+}
+.aula-card {
+  background: #ffffff;
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  height: 100%;
+}
+.aula-card h3 {
+  font-size: 14px;
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+}
+.aula-card p {
+  font-size: 12px;
+  color: var(--uc15-fg-secondary);
+  margin: 0;
+}
+.aula-card p:last-child {
+  font-weight: 700;
+}
+@media (max-width: 767px) {
+  .grade-horarios__scroll {
+    overflow-x: auto;
+  }
+  .grade-horarios__cabecalho,
+  .grade-horarios__corpo {
+    grid-template-columns: repeat(7, 130px);
+    width: max-content;
+  }
+}
+
+/* ============================================================
+   5. CONTATO — Imagem de fundo com formulário sobreposto
+   ============================================================ */
+
+.contato-hero {
+  position: relative;
+  min-height: var(--media-contato-min-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  margin-inline: calc(-1 * var(--space-10));
+  margin-bottom: calc(-1 * var(--space-9));
+}
+.contato-hero__bg {
+  position:absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+  z-index: 1;
+}
+.contato-hero__overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left:0;
+  background: rgba(248, 248, 248, 0.3); /* clareia a foto para o formulário ficar legível */
+  z-index: 2;
+}
+.contato-hero__form {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 880px;
+  margin: var(--space-7) auto;
+  padding: var(--space-8);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(5, 31, 32, 0.12);
+  text-align: center;
+
+}

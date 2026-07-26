@@ -1,0 +1,442 @@
+/* ============================================================
+   UC15 — Bio Genétic — Estilo principal do site institucional
+   Tipografia: Sora (títulos) · Poppins (corpo/botões) · Inter (utilitário)
+   Depende de: uc15-estrutura-midia.css (variáveis de espaçamento e mídia)
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@600&family=Poppins:wght@400;500;700&family=Inter:wght@400;500&display=swap");
+
+/* ============================================================
+   1. RESET E BASE
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--uc15-bg);
+  color: var(--uc15-fg);
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+h1, h2, h3 {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  margin: 0 0 var(--space-3) ;
+  color: var(--uc15-fg);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 24px; }
+h3 { font-size: 18px; }
+p { margin: 0 0 var(--space-3) 0; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+
+
+.container {
+  max-width: 2130px;
+  margin:0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* Respeita quem prefere menos animação */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+/* Oculta visualmente mas mantém legível por leitor de tela (WCAG) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Foco visível em todo elemento interativo — navegação por teclado (WCAG) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--uc15-fg);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   2. BOTÕES — mínimo de 44px de toque (WCAG — tamanho de toque)
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-sm);
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 31, 32, 0.15);
+}
+.btn--primary {
+  background: var(--uc15-fg);
+  color: var(--uc15-bg);
+}
+
+.btn--enviar {
+  display: flex;
+  margin-inline: auto;
+  border-radius: var(--radius-sm);
+  background: var(--uc15-fg);
+  color: var(--uc15-bg);
+  width: 40%;
+}
+.btn--outline {
+  background: transparent;
+  color: var(--uc15-fg);
+  border-color: var(--uc15-fg);
+}
+
+/* ============================================================
+   3. NAVEGAÇÃO — hambúrguer em mobile + tablet (<1024px)
+   ============================================================ */
+.nav {
+  background: var(--uc15-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav__container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav__logo {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  position: relative;
+}
+.nav__logo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 44px;
+  transform: translateX(-50%);
+}
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+.nav__links a:not(.btn) {
+  font-size: 14px;
+  opacity: 0.75;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.nav__links a.is-active {
+  opacity: 1;
+  font-weight: 500;
+}
+
+/* Botão hambúrguer — escondido em desktop */
+.nav__toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.nav__toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--uc15-fg);
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* Exceção de breakpoint combinada: hambúrguer ativo até 1024px
+   (diferente do breakpoint geral de 767px do resto do site) */
+@media (max-width: 1024px) {
+  .nav__toggle {
+    display: flex;
+  }
+  .nav__links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--uc15-bg);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    border-bottom: 1px solid rgba(5, 31, 32, 0.12);
+    display: none;
+  }
+  .nav__links.is-open {
+    display: flex;
+  }
+  .nav__toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+  .nav__toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+}
+
+/* ============================================================
+   4. CARD GENÉRICO — usado só em planos.html (.plano-card)
+   ============================================================ */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(5, 31, 32, 0.1);
+}
+
+/* ============================================================
+   5. RODAPÉ — escuro, contrastante (mesmo tom de fundo do bloco
+   .estrutura da Home — os dois nunca ficam colados um no outro)
+   ============================================================ */
+.footer {
+  background: var(--uc15-fg);
+  color: var(--uc15-bg);
+  margin-top: var(--space-9);
+}
+.footer__grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-7) var(--space-4);
+  display:grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  gap: var(--space-5);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+}
+.footer__grid > * {
+  min-width: 0;
+}
+.footer__grid h3 {
+  color: var(--uc15-bg);
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.6;
+  margin-bottom: var(--space-2);
+}
+.footer__grid a {
+  display: block;
+  opacity: 0.85;
+  margin-bottom: var(--space-1);
+  position: relative;
+}
+.footer__grid a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+}
+.footer__sobre {
+  text-align: left;
+}
+.footer__grid > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+.footer__logo {
+  margin-top: 50px;
+}
+.footer__bottom {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  opacity: 0.6;
+  padding: var(--space-3);
+  border-top: 1px solid rgba(248, 248, 248, 0.15);
+}
+@media (max-width: 767px) {
+  .footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ============================================================
+   6. PÁGINA — HOME (hero, sobre, destaques)
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding: var(--space-7) 0;
+}
+.hero__subtitle {
+  color: var(--uc15-fg-secondary);
+  font-size: 15px;
+  text-align:center;
+  margin-left: 0px;
+  margin-right: 0px;
+  
+}
+
+/* ============================================================
+   7. PÁGINA — PLANOS (sem mídia)
+   ============================================================ */
+.planos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-6) 0;
+}
+.plano-card {
+  text-align: center;
+}
+.plano-card__preco {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  margin: var(--space-2) 0;
+}
+.plano-card__acesso {
+  color: var(--uc15-fg-secondary);
+  font-size: 12px;
+  margin-bottom: var(--space-4);
+}
+@media (max-width: 767px) {
+  .planos-grid { grid-template-columns: 1fr; }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .planos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   8. PÁGINA — CARDÁPIO (sem mídia)
+   ============================================================ */
+.cardapio-categoria {
+  padding: var(--space-8) 0;
+}
+.cardapio-item {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-3) 10%;
+  border-bottom: 1px solid rgba(5, 31, 32, 0.1);
+}
+.cardapio-item__preco {
+  color: var(--uc15-fg-secondary);
+  font-family: "Inter", sans-serif;
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   9. PÁGINA — CONTATO (formulário decorativo)
+   ============================================================ */
+.form-group {
+  margin-bottom: var(--space-4);
+}
+.form-group label {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: var(--uc15-fg-secondary);
+  margin-bottom: var(--space-1);
+}
+fieldset.form-group {
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+}
+fieldset.form-group legend {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: var(--uc15-fg-secondary);
+  margin-bottom: var(--space-1);
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3);
+  border-radius: 3px;
+  border: 1px solid rgba(5, 31, 32, 0.25);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  background: #ffffff;
+}
+.form-group textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+.form-group.is-invalid input,
+.form-group.is-invalid textarea {
+  border-color: #a3312a;
+}
+.form-error {
+  display: none;
+  color: #a3312a;
+  font-size: 12px;
+  margin-top: var(--space-1);
+}
+.form-group.is-invalid .form-error {
+  display: block;
+}
+
+/* "Já é aluno?" — div com label + dois radios, área de toque grande */
+.form-radio-group {
+  display: flex;
+  gap: var(--space-5);
+}
+.form-radio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  cursor: pointer;
+}
+.form-radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+}
+
+.form-success {
+  display: none;
+  background: rgba(5, 31, 32, 0.06);
+  border: 1px solid rgba(5, 31, 32, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  font-size: 14px;
+  margin-top: var(--space-4);
+}
+.form-success.is-visible {
+  display: block;
+}
