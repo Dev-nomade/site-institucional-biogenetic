@@ -58,6 +58,11 @@ img { max-width: 100%; }
   border: 0;
 }
 
+/* Esconde elemento (ex: campo condicional "Parcelas" no Cadastro) */
+.is-hidden {
+  display: none;
+}
+
 /* Foco visível em todo elemento interativo — navegação por teclado (WCAG) */
 a:focus-visible,
 button:focus-visible,
@@ -354,7 +359,8 @@ textarea:focus-visible {
 
 
 /* ============================================================
-   9. PÁGINA — CONTATO (formulário decorativo)
+   9. FORMULÁRIOS — compartilhado entre Contato, Cadastro e Login
+   (todos decorativos: validação em JS, sem envio/persistência real)
    ============================================================ */
 .form-group {
   margin-bottom: var(--space-4);
@@ -383,6 +389,8 @@ fieldset.form-group legend {
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="tel"],
+.form-group input[type="password"],
+.form-group input[type="date"],
 .form-group textarea {
   width: 100%;
   min-height: 44px;
@@ -396,6 +404,28 @@ fieldset.form-group legend {
 .form-group textarea {
   min-height: 96px;
   resize: vertical;
+}
+
+/* Campo de senha com botão de mostrar/ocultar ("olhinho") */
+.input-senha {
+  position: relative;
+}
+.input-senha input {
+  padding-right: 44px;
+}
+.input-senha__toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--uc15-fg-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .form-group.is-invalid input,
 .form-group.is-invalid textarea {
@@ -428,6 +458,23 @@ fieldset.form-group legend {
   height: 18px;
 }
 
+/* Checkbox avulso (avaliação clínica, Termos de Uso) — mesmo padrão do radio */
+.form-checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  color: var(--uc15-fg);
+}
+.form-checkbox-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
 .form-success {
   display: none;
   background: rgba(5, 31, 32, 0.06);
@@ -439,4 +486,236 @@ fieldset.form-group legend {
 }
 .form-success.is-visible {
   display: block;
+}
+
+/* ============================================================
+   10. PÁGINA — CADASTRO (formulário decorativo, sem imagem de fundo)
+   ============================================================ */
+.cadastro-hero {
+  padding: var(--space-6) 0 var(--space-9);
+}
+.cadastro-hero__form {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-8);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(5, 31, 32, 0.12);
+  text-align: center;
+}
+.cadastro-hero__login {
+  font-size: 13px;
+  color: var(--uc15-fg-secondary);
+  margin-top: var(--space-4);
+}
+.cadastro-hero__login a {
+  text-decoration: underline;
+  color: var(--uc15-fg);
+}
+
+/* ============================================================
+   11. PÁGINA — LOGIN (formulário decorativo, sem imagem de fundo)
+   ============================================================ */
+.login-hero {
+  padding: var(--space-9) 0;
+  display: flex;
+  justify-content: center;
+}
+.login-hero__form {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-8);
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(5, 31, 32, 0.12);
+  text-align: center;
+}
+
+/* ============================================================
+   12. ÁREA DO ALUNO — compartilhado entre Check-in, Modalidades
+   (agendamento), Coworking, Armário e Treino
+   ============================================================ */
+
+/* Linha de registro genérica: histórico de check-in, agendamentos
+   confirmados, reservas — reaproveitada nas próximas telas */
+.registro-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+  font-size: 14px;
+}
+
+.checkin-confirmacao {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkin-historico {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 0 var(--space-9);
+}
+
+/* Badge de status — só as 2 cores do site (sem verde/vermelho novo) */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.status-badge--confirmado,
+.status-badge--ocupado {
+  background: var(--uc15-fg);
+  color: var(--uc15-bg);
+}
+.status-badge--disponivel {
+  background: transparent;
+  color: var(--uc15-fg-secondary);
+  border: 1px solid rgba(5, 31, 32, 0.25);
+}
+
+/* Ação "Agendar" dentro do aula-card — link compacto com área de
+   toque invisível de 44px (mesma técnica do menu/rodapé) */
+.aula-card__agendar {
+  position: relative;
+  display: inline-block;
+  margin-top: var(--space-2);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--uc15-fg);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.aula-card__agendar::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 44px;
+  transform: translateY(-50%);
+}
+.aula-card__agendar[disabled] {
+  color: var(--uc15-fg-secondary);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* Card ocupado (Coworking) — inverte o tom em vez de usar cor nova */
+.aula-card--ocupado {
+  background: var(--uc15-fg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.meus-registros {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-6) 0 var(--space-9);
+}
+
+/* Coworking — mesma grade de Modalidades, só que com 6 colunas (salas) */
+.coworking-horarios .grade-horarios__cabecalho,
+.coworking-horarios .grade-horarios__corpo {
+  grid-template-columns: repeat(6, 1fr);
+}
+@media (max-width: 767px) {
+  .coworking-horarios .grade-horarios__cabecalho,
+  .coworking-horarios .grade-horarios__corpo {
+    grid-template-columns: repeat(6, 130px);
+  }
+}
+
+/* Armário — grade de 80 armários, só visualização (sem interação) */
+.armario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-6) 0 var(--space-9);
+}
+.armario-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: var(--space-3);
+  min-height: 72px;
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+}
+.armario-item__numero {
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+}
+.armario-item__status {
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--uc15-fg-secondary);
+}
+.armario-item--ocupado {
+  background: var(--uc15-fg);
+  border-color: var(--uc15-fg);
+  color: var(--uc15-bg);
+}
+.armario-item--ocupado .armario-item__status {
+  color: var(--uc15-bg);
+  opacity: 0.75;
+}
+
+/* Treino — lista de segunda a sexta, só visualização */
+.treino-lista {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-6) 0 var(--space-9);
+}
+.treino-item {
+  display: flex;
+  gap: var(--space-5);
+  align-items: flex-start;
+  padding: var(--space-4);
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+.treino-item__dia {
+  flex-shrink: 0;
+  width: 90px;
+  padding-top: 2px;
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--uc15-fg-secondary);
+}
+.treino-item__conteudo h3 {
+  margin-bottom: var(--space-1);
+}
+.treino-item__conteudo p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--uc15-fg-secondary);
 }
