@@ -719,3 +719,45 @@ fieldset.form-group legend {
   font-size: 13px;
   color: var(--uc15-fg-secondary);
 }
+
+/* Menu do usuário (nav da área do aluno) — "Editar Perfil" e "Contratos"
+   são só visuais, sem ação; só "Sair" navega de verdade. */
+.user-menu {
+  position: relative;
+}
+.user-menu__toggle {
+  gap: var(--space-1);
+}
+.user-menu__dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  min-width: 180px;
+  background: var(--uc15-bg);
+  border: 1px solid rgba(5, 31, 32, 0.15);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 20px rgba(5, 31, 32, 0.12);
+  padding: var(--space-2);
+  z-index: 50;
+}
+.user-menu__dropdown.is-open {
+  display: block;
+}
+.user-menu__item {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: var(--uc15-fg);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+.user-menu__item:hover {
+  background: rgba(5, 31, 32, 0.06);
+}

@@ -23,7 +23,17 @@
         <a href="coworking.html" class="is-active">Coworking</a>
         <a href="armario.html">Armário</a>
         <a href="treino.html">Treino</a>
-        <a href="index.html" class="btn btn--outline">Sair</a>
+        <div class="user-menu">
+          <button type="button" class="user-menu__toggle btn btn--outline" id="user-menu-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="user-menu-dropdown">
+            Minha Conta
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="user-menu__dropdown" id="user-menu-dropdown" role="menu" aria-label="Menu do usuário">
+            <button type="button" class="user-menu__item" role="menuitem">Editar Perfil</button>
+            <button type="button" class="user-menu__item" role="menuitem">Contratos</button>
+            <a href="index.html" class="user-menu__item" role="menuitem">Sair</a>
+          </div>
+        </div>
       </nav>
       <button class="nav__toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
         <span></span><span></span><span></span>

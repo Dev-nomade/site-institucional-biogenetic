@@ -9,6 +9,8 @@
    7. Botão de mostrar/ocultar senha (Cadastro e Login)
    8. Check-in — registro decorativo, com histórico ilustrativo
    9. Agendar aula/sala — Modalidades e Coworking (área do aluno)
+   10. Menu do usuário (área do aluno) — "Editar Perfil"/"Contratos"
+       são só visuais, sem ação; só "Sair" navega
    ============================================================ */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -433,4 +435,42 @@ document.addEventListener("DOMContentLoaded", function () {
       botao.disabled = true;
     });
   });
+
+  /* --------------------------------------------------------
+     10. MENU DO USUÁRIO (área do aluno)
+     "Editar Perfil" e "Contratos" são <button> sem handler —
+     só existem visualmente, não fazem nada de propósito. "Sair"
+     é o único item com ação real (link de volta pra index.html).
+     -------------------------------------------------------- */
+  var userMenuToggle = document.getElementById("user-menu-toggle");
+  var userMenuDropdown = document.getElementById("user-menu-dropdown");
+  if (userMenuToggle && userMenuDropdown) {
+    var fecharUserMenu = function () {
+      userMenuDropdown.classList.remove("is-open");
+      userMenuToggle.setAttribute("aria-expanded", "false");
+    };
+
+    userMenuToggle.addEventListener("click", function (event) {
+      event.stopPropagation();
+      var abrir = !userMenuDropdown.classList.contains("is-open");
+      userMenuDropdown.classList.toggle("is-open", abrir);
+      userMenuToggle.setAttribute("aria-expanded", abrir ? "true" : "false");
+    });
+
+    // Fecha o menu ao escolher qualquer item — mecânica geral do menu,
+    // não é uma "ação" própria de "Editar Perfil"/"Contratos"
+    userMenuDropdown.querySelectorAll(".user-menu__item").forEach(function (item) {
+      item.addEventListener("click", fecharUserMenu);
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!userMenuDropdown.contains(event.target) && event.target !== userMenuToggle) {
+        fecharUserMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") fecharUserMenu();
+    });
+  }
 });
